@@ -13,7 +13,8 @@ const positionsDetails = require("./Router/PositionsRoute")
 const blogDetails = require("./Router/BlogsRoute")
 // const db = require("./Module/allData")
 const ProductColors = require("./Router/ProductsColorRoute")
-const JoinTeam= require("./Router/JoinTeamRoute")
+const JoinTeamDetails= require("./Router/JoinTeamRoute")
+const TradeinDetails= require("./Router/TradeRoute")
 const ProductsDetailsRoute = require("./Router/ProductsDetailsRoute")
 const NewImgProductsRoute = require("./Controller/NewImgProductsRoute")
 
@@ -75,7 +76,11 @@ app.use('/blog', blogDetails);
 app.use('/color', ProductColors);
 
 // Use the color variations route
-app.use('/jointeam', JoinTeam);
+app.use('/jointeam', JoinTeamDetails);
+
+
+// Use the Trade in route
+app.use('/tradein', TradeinDetails);
 
 
 
