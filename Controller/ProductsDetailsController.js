@@ -10,27 +10,45 @@ const path = require("path");
 const addProductDetails = async (req, res) => {
   const {
     product_name,
-    color_id,
-    stock,
     price,
-    model_id,
-    image_slider,
-    old_price,
+    color_id,
+    details,
+    stock,
     category_id,
+    old_price,
+    model_id,
+    screen,
+    battery,
+    camera_front,
+    camera_back,
+    material,
+    gpu,
+    cpu,
+    type_charger,
+    type_id
   } = req.body;
 
   //Write the image to the folder using the image path and image name,
   dataProducts.query(
-    "INSERT INTO products (product_name ,color_id , stock, price, model_id, image_slider,	old_price, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO products ( product_name , price, color_id, details, stock, category_id, old_price, model_id, screen, battery,camera_front,camera_back, material, gpu, cpu, type_charger, type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?)",
     [
       product_name,
-      color_id,
-      stock,
       price,
-      model_id,
-      image_slider,
-      old_price,
+      color_id,
+      details,
+      stock,
       category_id,
+      old_price,
+      model_id,
+      screen,
+      battery,
+      camera_front,
+      camera_back,
+      material,
+      gpu,
+      cpu,
+      type_charger,
+      type_id
     ],
     (error, results) => {
       if (error) {
