@@ -1,24 +1,82 @@
-const dataProducts = require("../Module/allData"); // Import your database connection
+// const dataProducts = require("../Module/allData"); // Import your database connection
 
-addjoinTeam = async (req, res) => {
-    const { first_name ,last_name ,email,phone,position_id,attach_cv } = req.body;
+// addjoinTeam = async (req, res) => {
+//     const { first_name ,last_name ,email,phone,position_id,attach_cv } = req.body;
 
+//     dataProducts.query(
+//         'INSERT INTO join_our_team (first_name ,last_name ,email,phone,position_id,attach_cv) VALUES (? , ? , ? , ? , ? ,?)',
+//         [first_name ,last_name ,email,phone,position_id,attach_cv],
+//         (error, results) => {
+//             if (error) {
+//                 console.error(error);
+//                 // Handle the error
+//                 res.status(500).json({ error: 'Internal Server Error' });
+//             } else {
+//                 console.log('Item added successfully');
+//                 // You can access the inserted ID using results.insertId
+//                 res.status(200).json({ message: 'Item added successfully' });
+//             }
+//         }
+//     );
+// }
+
+const multer = require("multer");
+
+// Define storage for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "../attaches");
+    },
+    filename: (req, file, cb) => {
+      // Rename the file to prevent conflicts (you can use a unique name generator)
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, uniqueSuffix + "-" + file.originalname);
+    },
+  });
+
+  
+// Create the multer instance
+const upload = multer({ storage: storage });
+
+// Import your database connection and route handlers as you did before
+const dataProducts = require("../Module/allData");
+
+
+
+
+addjoinTeamDetails = async (req, res) => {
+    const { first_name, last_name, email, phone, position_id } = req.body;
+  
+    // Check if a file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ error: "Missing CV file" });
+    }
+  
+    const attach_cv = req.file.path; // Get the path to the uploaded file
+  
     dataProducts.query(
-        'INSERT INTO join_our_team (first_name ,last_name ,email,phone,position_id,attach_cv) VALUES (? , ? , ? , ? , ? ,?)',
-        [first_name ,last_name ,email,phone,position_id,attach_cv],
-        (error, results) => {
-            if (error) {
-                console.error(error);
-                // Handle the error
-                res.status(500).json({ error: 'Internal Server Error' });
-            } else {
-                console.log('Item added successfully');
-                // You can access the inserted ID using results.insertId
-                res.status(200).json({ message: 'Item added successfully' });
-            }
+      'INSERT INTO join_our_team (first_name, last_name, email, phone, position_id, attach_cv) VALUES (?, ?, ?, ?, ?, ?)',
+      [first_name, last_name, email, phone, position_id, attach_cv],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          // Handle the error
+          res.status(500).json({ error: "Internal Server Error" });
+        } else {
+          console.log("Item added successfully");
+          // You can access the inserted ID using results.insertId
+          res.status(200).json({ message: "Item added successfully" });
         }
+      }
     );
-}
+  };
+  
+
+  addjoinTeam = upload.single("attach_cv", addjoinTeamDetails);
+
+
+
+
 
 
 
