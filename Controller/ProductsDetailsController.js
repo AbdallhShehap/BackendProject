@@ -58,8 +58,8 @@ const addProductDetails = async (req, res) => {
       } else {
         console.log("Item added successfully");
         // You can access the inserted ID using results.insertId
-        res.status(200).json({ message: "Item added successfully" });
-      }
+        const insertedProductId = results.insertId;
+        res.status(200).json({ p_id: insertedProductId}) }
     }
   );
 };
@@ -134,24 +134,42 @@ const editProductDetails = async (req, res) => {
   const itemId = req.params.id;
   const {
     product_name,
-    color_id,
-    stock,
     price,
-    model_id,
-    image_slider,
-    old_price,
+    color_id,
+    details,
+    stock,
     category_id,
+    old_price,
+    model_id,
+    screen,
+    battery,
+    camera_front,
+    camera_back,
+    material,
+    gpu,
+    cpu,
+    type_charger,
+    type_id
   } = req.body;
 
   const updatedProductData = {
     product_name,
-    color_id,
-    stock,
     price,
-    model_id,
-    image_slider,
-    old_price,
+    color_id,
+    details,
+    stock,
     category_id,
+    old_price,
+    model_id,
+    screen,
+    battery,
+    camera_front,
+    camera_back,
+    material,
+    gpu,
+    cpu,
+    type_charger,
+    type_id
   };
 
   const updatedImagePaths = req.body.image_paths || [];
@@ -168,16 +186,25 @@ const editProductDetails = async (req, res) => {
 
     // Update the product details
     await connection.query(
-      "UPDATE products SET product_name = ?, color_id = ?, stock = ?, price = ?, model_id = ?, image_slider = ?, category_id = ?, old_price = ? WHERE p_id = ?",
+      "UPDATE products SET  product_name = ? , price = ?,color_id = ?, details = ?, stock = ?, category_id = ?, old_price = ?, model_id = ?, screen = ?, battery = ?, camera_front = ?, camera_back = ?, material = ?, gpu = ? , cpu = ?, type_charger = ?, type_id = ?  WHERE p_id = ?",
       [
         updatedProductData.product_name,
-        updatedProductData.color_id,
-        updatedProductData.stock,
         updatedProductData.price,
-        updatedProductData.model_id,
-        updatedProductData.image_slider,
+        updatedProductData.color_id,
+        updatedProductData.details,
+        updatedProductData.stock,
         updatedProductData.category_id,
         updatedProductData.old_price,
+        updatedProductData.model_id,
+        updatedProductData.screen,
+        updatedProductData.battery,
+        updatedProductData.camera_front,
+        updatedProductData.camera_back,
+        updatedProductData.material,
+        updatedProductData.gpu,
+        updatedProductData.cpu,
+        updatedProductData.type_charger,
+        updatedProductData.type_id,
         itemId,
       ]
     );
