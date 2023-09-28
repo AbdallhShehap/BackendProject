@@ -11,7 +11,7 @@ const addProductDetails = async (req, res) => {
   const {
     product_name,
     price,
-    color_id,
+   
     details,
     stock,
     category_id,
@@ -30,11 +30,11 @@ const addProductDetails = async (req, res) => {
 
   //Write the image to the folder using the image path and image name,
   dataProducts.query(
-    "INSERT INTO products ( product_name , price, color_id, details, stock, category_id, old_price, model_id, screen, battery,camera_front,camera_back, material, gpu, cpu, type_charger, type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?)",
+    "INSERT INTO products ( product_name , price, details, stock, category_id, old_price, model_id, screen, battery,camera_front,camera_back, material, gpu, cpu, type_charger, type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)",
     [
       product_name,
       price,
-      color_id,
+     
       details,
       stock,
       category_id,
@@ -135,7 +135,7 @@ const editProductDetails = async (req, res) => {
   const {
     product_name,
     price,
-    color_id,
+   
     details,
     stock,
     category_id,
@@ -155,7 +155,6 @@ const editProductDetails = async (req, res) => {
   const updatedProductData = {
     product_name,
     price,
-    color_id,
     details,
     stock,
     category_id,
