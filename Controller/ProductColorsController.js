@@ -4,9 +4,9 @@ const addColor = async (req, res) => {
     const { color_name , image_color} = req.body;
 
     dataProducts.query(
-        'INSERT INTO color (color_name , image_color) VALUES (?, ?)',
+        'INSERT INTO color (color_name , image_color , product_id ) VALUES (?, ?, ?)',
        
-        [color_name	, image_color ],
+        [color_name	, image_color , product_id ],
         (error, results) => {
             if (error) {
                 console.error(error);
@@ -25,16 +25,16 @@ const addColor = async (req, res) => {
 
 const editColor = async (req, res) => {
     const itemId = req.params.id;
-    const { color_name ,image_color	} = req.body;
+    const { color_name ,image_color , product_id} = req.body;
     console.log(itemId);
 
-      if (!color_name || !image_color) {
+      if (!color_name || !image_color || !product_id) {
         return res.status(400).json({ error: 'Missing parameters in the request body' });
     }
 
     dataProducts.query(
-        'UPDATE color SET color_name = ? , image_color	= ? WHERE color_id = ? ',
-        [color_name	,image_color, itemId],
+        'UPDATE color SET color_name = ? , image_color	= ? , product_id = ? WHERE color_id = ? ',
+        [color_name	,image_color, product_id , itemId],
         (error, results) => {
             if (error) {
                 console.error(error);

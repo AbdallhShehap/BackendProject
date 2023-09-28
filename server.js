@@ -75,6 +75,7 @@ app.use('/blog', blogDetails);
 // Use the color route
 app.use('/color', ProductColors);
 
+
 // Use the color variations route
 app.use('/jointeam', JoinTeamDetails);
 
