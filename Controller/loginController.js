@@ -81,6 +81,43 @@ exports.getUsers = (req, res) => {
 
 
 
+
+exports.getUserById = (req, res) => {
+  console.log("Request received for /user/:id");
+  
+  // Extract the user ID from the request parameters
+  const userId = req.params.id;
+
+  try {
+    // Query the database to retrieve user data by ID
+    const query = "SELECT username , email , password , role_id FROM users WHERE id = ?";
+    db.query(query, [userId], (err, results) => {
+      if (err) {
+        console.error("Error executing SQL query:", err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+      
+      // Check if a user with the given ID exists
+      if (results.length === 0) {
+        console.error("No user found with ID:", userId);
+        return res.status(404).json({ status: "error", message: "User not found" });
+      }
+      
+      // Return the user data in the response
+      const user = results[0];
+      res.status(200).json({ status: "success", user });
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({ error: err });
+  }
+};
+
+
+
+
+
+
 // Create an update controller
 exports.updateProfile = (req, res) => {
   console.log("Request received for updating profile");
