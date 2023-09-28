@@ -54,14 +54,18 @@ exports.login = (req, res) => {
       console.log(`token: ${token}`);
       // Send the token in the response
       return res
-        .status(200)
-        .json({ status: "success", token, message: "Login successful" });
-    });
+      .status(200)
+      .json({ status: "success", token, message: "Login successful",role_id:user.role_id });
+  });
   } catch (err) {
     console.log(err);
     return res.json({ error: err });
   }
 };
+
+
+
+
 
 exports.getUsers = (req, res) => {
   const query = "SELECT username  FROM users";
