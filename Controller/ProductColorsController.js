@@ -1,7 +1,7 @@
 const dataProducts = require("../Module/allData"); // Import your database connection
 
 const addColor = async (req, res) => {
-    const { color_name , image_color} = req.body;
+    const { color_name , image_color ,product_id } = req.body;
 
     dataProducts.query(
         'INSERT INTO color (color_name , image_color , product_id ) VALUES (?, ?, ?)',
