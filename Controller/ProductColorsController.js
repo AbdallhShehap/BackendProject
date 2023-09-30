@@ -88,7 +88,7 @@ const editColor = async (req, res) => {
       const getProductclorsById = (req, res) => {
         const itemId =  req.params.id ;
       
-        const query = 'SELECT * FROM color  WHERE color_id = ?'
+        const query = 'SELECT * FROM color  WHERE product_id = ?'
       
         dataProducts.query(query ,
         [itemId], (err, results) => {
