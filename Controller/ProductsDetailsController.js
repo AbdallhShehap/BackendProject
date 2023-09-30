@@ -1,17 +1,11 @@
 // const dataProducts = require("../Module/test"); // Import your database connection
-const { log } = require("console");
 const dataProducts = require("../Module/allData"); // Import your database connection
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
-const IMGPATH = process.env.IMGPATH;
-const multer = require("multer");
-const path = require("path");
+
 
 const addProductDetails = async (req, res) => {
   const {
     product_name,
     price,
-   
     details,
     stock,
     category_id,
@@ -127,110 +121,107 @@ const addProductDetails = async (req, res) => {
 //     );
 //   });
 // };
-const editProductDetails = async (req, res) => {
-  const itemId = req.params.id;
-  const {
-    product_name,
-    price,
-   details,
-    stock,
-    category_id,
-    old_price,
-    screen,
-    battery,
-    camera_front,
-    camera_back,
-    material,
-    gpu,
-    cpu,
-    type_charger,
-    type_id
-  } = req.body;
-
-  const updatedProductData = {
-    product_name,
-    price,
-    details,
-    stock,
-    category_id,
-    old_price,
-    screen,
-    battery,
-    camera_front,
-    camera_back,
-    material,
-    gpu,
-    cpu,
-    type_charger,
-    type_id
-  };
-
-  const updatedImagePaths = req.body.image_paths || [];
-
-  console.log(itemId);
-
-  let connection; // Declare the connection variable
-
-  try {
-    connection = await dataProducts.getConnection(); // Get a new database connection
-
-    // Start a transaction if needed
-    await connection.beginTransaction();
-
-    // Update the product details
-    await connection.query(
-      "UPDATE products SET  product_name = ? , price = ?,color_id = ?, details = ?, stock = ?, category_id = ?, old_price = ?, model_id = ?, screen = ?, battery = ?, camera_front = ?, camera_back = ?, material = ?, gpu = ? , cpu = ?, type_charger = ?, type_id = ?  WHERE p_id = ?",
-      [
-        updatedProductData.product_name,
-        updatedProductData.price,
-        updatedProductData.color_id,
-        updatedProductData.details,
-        updatedProductData.stock,
-        updatedProductData.category_id,
-        updatedProductData.old_price,
-        updatedProductData.screen,
-        updatedProductData.battery,
-        updatedProductData.camera_front,
-        updatedProductData.camera_back,
-        updatedProductData.material,
-        updatedProductData.gpu,
-        updatedProductData.cpu,
-        updatedProductData.type_charger,
-        updatedProductData.type_id,
-        itemId,
-      ]
-    );
-
-    // Update the product images
-    for (const imagePath of updatedImagePaths) {
-      await connection.query(
-        "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)",
-        [itemId, imagePath]
-      );
-    }
-
-    await connection.commit(); // Commit the transaction
-
-    console.log("Item updated successfully");
-    res.status(200).json({ message: "Item updated successfully" });
-  } catch (error) {
-    console.error(error);
-
-    if (connection) {
-      await connection.rollback(); // Rollback the transaction if an error occurred
-    }
-
-    res.status(500).json({ error: "Internal Server Error" });
-  } finally {
-    if (connection) {
-      connection.release(); // Release the connection when done
-    }
-  }
-};
 
 
+// const editProductDetails = async (req, res) => {
+//   const itemId = req.params.id;
+//   const {
+//     product_name,
+//     price,
+//    details,
+//     stock,
+//     category_id,
+//     old_price,
+//     screen,
+//     battery,
+//     camera_front,
+//     camera_back,
+//     material,
+//     gpu,
+//     cpu,
+//     type_charger,
+//     type_id
+//   } = req.body;
 
+//   const updatedProductData = {
+//     product_name,
+//     price,
+//     details,
+//     stock,
+//     category_id,
+//     old_price,
+//     screen,
+//     battery,
+//     camera_front,
+//     camera_back,
+//     material,
+//     gpu,
+//     cpu,
+//     type_charger,
+//     type_id
+//   };
 
+//   const updatedImagePaths = req.body.image_paths || [];
+
+//   console.log(itemId);
+
+//   let connection; // Declare the connection variable
+
+//   try {
+//     connection = await dataProducts.getConnection(); // Get a new database connection
+
+//     // Start a transaction if needed
+//     await connection.beginTransaction();
+
+//     // Update the product details
+//     await connection.query(
+//       "UPDATE products SET  product_name = ? , price = ?,color_id = ?, details = ?, stock = ?, category_id = ?, old_price = ?, model_id = ?, screen = ?, battery = ?, camera_front = ?, camera_back = ?, material = ?, gpu = ? , cpu = ?, type_charger = ?, type_id = ?  WHERE p_id = ?",
+//       [
+//         updatedProductData.product_name,
+//         updatedProductData.price,
+//         updatedProductData.details,
+//         updatedProductData.stock,
+//         updatedProductData.category_id,
+//         updatedProductData.old_price,
+//         updatedProductData.screen,
+//         updatedProductData.battery,
+//         updatedProductData.camera_front,
+//         updatedProductData.camera_back,
+//         updatedProductData.material,
+//         updatedProductData.gpu,
+//         updatedProductData.cpu,
+//         updatedProductData.type_charger,
+//         updatedProductData.type_id,
+//         itemId,
+//       ]
+//     );
+
+//     // Update the product images
+//     for (const imagePath of updatedImagePaths) {
+//       await connection.query(
+//         "INSERT INTO product_images (product_id, image_path) VALUES (?, ?)",
+//         [itemId, imagePath]
+//       );
+//     }
+
+//     await connection.commit(); // Commit the transaction
+
+//     console.log("Item updated successfully");
+//     res.status(200).json({ message: "Item updated successfully" });
+//   } catch (error) {
+//     console.error(error);
+
+//     if (connection) {
+//       await connection.rollback(); // Rollback the transaction if an error occurred
+//     }
+
+//     res.status(500).json({ error: "Internal Server Error" });
+//   } finally {
+//     if (connection) {
+//       connection.release(); // Release the connection when done
+//     }
+//   }
+// };
 
 
 
@@ -331,6 +322,11 @@ const editProductDetails = async (req, res) => {
 //     }
 //   );
 // };
+
+
+
+
+
 
 
 
@@ -464,7 +460,7 @@ const getProductDetailsByCategory = (req, res) => {
 
 module.exports = {
   addProductDetails,
-  editProductDetails,
+ 
   deleteProductDetails,
   getProductDetails,
   getProductDetailsById,

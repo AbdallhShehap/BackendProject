@@ -24,9 +24,10 @@ const multer = require("multer");
 
 // Define storage for file uploads
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "../attaches");
-    },
+  destination: (req, file, cb) => {
+    const destinationPath = path.join(dirname, "../attaches"); // Use dirname to get the current script's directory
+    cb(null, destinationPath);
+},
     filename: (req, file, cb) => {
       // Rename the file to prevent conflicts (you can use a unique name generator)
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -44,35 +45,35 @@ const dataProducts = require("../Module/allData");
 
 
 
-addjoinTeamDetails = async (req, res) => {
-    const { first_name, last_name, email, phone, position_id } = req.body;
+// addjoinTeamDetails = async (req, res) => {
+//     const { first_name, last_name, email, phone, position_id } = req.body;
   
-    // Check if a file was uploaded
-    if (!req.file) {
-      return res.status(400).json({ error: "Missing CV file" });
-    }
+//     // Check if a file was uploaded
+//     if (!req.file) {
+//       return res.status(400).json({ error: "Missing CV file" });
+//     }
   
-    const attach_cv = req.file.path; // Get the path to the uploaded file
+//     const attach_cv = req.file.path; // Get the path to the uploaded file
   
-    dataProducts.query(
-      'INSERT INTO join_our_team (first_name, last_name, email, phone, position_id, attach_cv) VALUES (?, ?, ?, ?, ?, ?)',
-      [first_name, last_name, email, phone, position_id, attach_cv],
-      (error, results) => {
-        if (error) {
-          console.error(error);
-          // Handle the error
-          res.status(500).json({ error: "Internal Server Error" });
-        } else {
-          console.log("Item added successfully");
-          // You can access the inserted ID using results.insertId
-          res.status(200).json({ message: "Item added successfully" });
-        }
-      }
-    );
-  };
+//     dataProducts.query(
+//       'INSERT INTO join_our_team (first_name, last_name, email, phone, position_id, attach_cv) VALUES (?, ?, ?, ?, ?, ?)',
+//       [first_name, last_name, email, phone, position_id, attach_cv],
+//       (error, results) => {
+//         if (error) {
+//           console.error(error);
+//           // Handle the error
+//           res.status(500).json({ error: "Internal Server Error" });
+//         } else {
+//           console.log("Item added successfully");
+//           // You can access the inserted ID using results.insertId
+//           res.status(200).json({ message: "Item added successfully" });
+//         }
+//       }
+//     );
+//   };
   
 
-  addjoinTeam = upload.single("attach_cv", addjoinTeamDetails);
+//   addjoinTeam = upload.single("attach_cv", addjoinTeamDetails);
 
 
 
@@ -163,7 +164,4 @@ editjoinTeam = async (req, res) => {
       }
       
 
-
-      
-
-module.exports = {addjoinTeam , editjoinTeam , deletejoinTeam , getjoinTeam ,getjoinTeamById }
+module.exports = { editjoinTeam , deletejoinTeam , getjoinTeam ,getjoinTeamById }
