@@ -16,7 +16,6 @@ const addProductDetails = async (req, res) => {
     stock,
     category_id,
     old_price,
-    model_id,
     screen,
     battery,
     camera_front,
@@ -30,16 +29,14 @@ const addProductDetails = async (req, res) => {
 
   //Write the image to the folder using the image path and image name,
   dataProducts.query(
-    "INSERT INTO products ( product_name , price, details, stock, category_id, old_price, model_id, screen, battery,camera_front,camera_back, material, gpu, cpu, type_charger, type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)",
+    "INSERT INTO products ( product_name , price, details, stock, category_id, old_price, screen, battery,camera_front,camera_back, material, gpu, cpu, type_charger, type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )",
     [
       product_name,
       price,
-     
-      details,
+     details,
       stock,
       category_id,
       old_price,
-      model_id,
       screen,
       battery,
       camera_front,
@@ -135,12 +132,10 @@ const editProductDetails = async (req, res) => {
   const {
     product_name,
     price,
-   
-    details,
+   details,
     stock,
     category_id,
     old_price,
-    model_id,
     screen,
     battery,
     camera_front,
@@ -159,7 +154,6 @@ const editProductDetails = async (req, res) => {
     stock,
     category_id,
     old_price,
-    model_id,
     screen,
     battery,
     camera_front,
@@ -194,7 +188,6 @@ const editProductDetails = async (req, res) => {
         updatedProductData.stock,
         updatedProductData.category_id,
         updatedProductData.old_price,
-        updatedProductData.model_id,
         updatedProductData.screen,
         updatedProductData.battery,
         updatedProductData.camera_front,
@@ -450,12 +443,12 @@ const getProductDetailsById = (req, res) => {
   });
 };
 
-const getProductDetailsImacById = (req, res) => {
+
+
+const getProductDetailsByCategory = (req, res) => {
   const itemId = req.params.id;
 
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 2";
-
+  const query = `SELECT * FROM products INNER JOIN category ON products.category_id = category.category_id WHERE category.category_id = ? `;
   dataProducts.query(query, [itemId], (err, results) => {
     if (err) {
       console.error("Error executing SQL query:", err);
@@ -468,113 +461,6 @@ const getProductDetailsImacById = (req, res) => {
   });
 };
 
-const getProductDetailsIphoneById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 3";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
-
-const getProductDetailsIpadById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 4";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
-
-const getProductDetailsWatchById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 5";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
-
-const getProductDetailsAudioById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 7";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
-
-const getProductDetailsAppleTvById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 8";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
-
-const getProductDetailsAccessoriesTvById = (req, res) => {
-  const itemId = req.params.id;
-
-  const query =
-    "SELECT * , TO_BASE64(image_main) AS image_base64 FROM products  WHERE category_id = 6";
-
-  dataProducts.query(query, [itemId], (err, results) => {
-    if (err) {
-      console.error("Error executing SQL query:", err);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-
-    console.log(results);
-    res.status(200).json(results);
-  });
-};
 
 module.exports = {
   addProductDetails,
@@ -582,11 +468,6 @@ module.exports = {
   deleteProductDetails,
   getProductDetails,
   getProductDetailsById,
-  getProductDetailsIphoneById,
-  getProductDetailsImacById,
-  getProductDetailsIpadById,
-  getProductDetailsWatchById,
-  getProductDetailsAudioById,
-  getProductDetailsAppleTvById,
-  getProductDetailsAccessoriesTvById,
+  getProductDetailsByCategory,
+
 };
