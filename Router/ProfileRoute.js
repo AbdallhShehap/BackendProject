@@ -171,7 +171,7 @@ router.get("/getprofiles", profileDetails.getProfile)
 
 router.get("/getprofile/:id", profileDetails.getProfileById)
 
-router.get("/getprofilebyuser/:id", profileDetails.getProfileByUser)
+router.get("/getprofilebyuser/:user_id", profileDetails.getProfileByUser)
 
 
 

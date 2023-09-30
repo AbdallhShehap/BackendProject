@@ -104,9 +104,9 @@ editProfileUserAndImgById = async (req, res) => {
 
     
     const getProfileByUser = (req, res) => {
-      const itemId =  req.params.id ;
-    
-      const query = 'SELECT * FROM profile  WHERE user_id  = ?'
+      const itemId =  req.params.user_id ;
+    console.log(itemId);
+      const query = 'SELECT * FROM profile  WHERE user_id = ?'
     
       dataProducts.query(query ,
       [itemId], (err, results) => {
