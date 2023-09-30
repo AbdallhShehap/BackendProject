@@ -8,8 +8,11 @@ const Order = require("./Router/OrderRoute")
 const OrderDetails = require("./Router/OrderDetailsRoute")
 const categoryDetails = require("./Router/CategoryRoute")
 const modelDetails = require("./Router/ModelRoute")
+const topSellingDetails = require("./Controller/TopSellingController")
+const specialoffersDetails = require("./Controller/SpecialOfferController")
 const subscribeDetails = require("./Router/SubscribeRoute")
 const positionsDetails = require("./Router/PositionsRoute")
+const ProfilesDetails = require("./Router/ProfileRoute")
 const blogDetails = require("./Router/BlogsRoute")
 // const db = require("./Module/allData")
 const ProductColors = require("./Router/ProductsColorRoute")
@@ -61,12 +64,23 @@ app.use('/category', categoryDetails);
 app.use('/model', modelDetails);
 
 
+// Use the model route
+app.use('/topselling', topSellingDetails);
+
+
+// Use the specialoffers route
+app.use('/specialoffers', specialoffersDetails);
+
+
 // Use the Subscribe route
 app.use('/subscribe', subscribeDetails);
 
 
 // Use the Positions route
 app.use('/positions', positionsDetails);
+
+// Use the Profiles route
+app.use('/Profiles', ProfilesDetails);
 
 
 // Use the blog route
